@@ -11,8 +11,12 @@ public class TokenDto implements Serializable {
 	@JsonProperty("access_token")
 	private String accessToken;
 
-	public TokenDto(String accessToken) {
+	@JsonProperty("type")
+	private String type;
+
+	public TokenDto(String accessToken, String type) {
 		this.accessToken = accessToken;
+		this.type = type;
 	}
 	
 	public TokenDto() {
@@ -27,7 +31,14 @@ public class TokenDto implements Serializable {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 
 }

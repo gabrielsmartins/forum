@@ -32,7 +32,7 @@ public class AutenticacaoController {
 		UsernamePasswordAuthenticationToken dataUser = form.converter();
 		Authentication authentication = authMananger.authenticate(dataUser);
 		String token = tokenService.gerarToken(authentication);
-		return new ResponseEntity<TokenDto>(new TokenDto(token), HttpStatus.OK);
+		return new ResponseEntity<TokenDto>(new TokenDto(token,"Bearer"), HttpStatus.OK);
 	}
 
 }
