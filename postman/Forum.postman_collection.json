@@ -7,6 +7,24 @@
 	"item": [
 		{
 			"name": "Consulta Topicos",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f3499bcd-edcc-40f9-bab6-93f2ad0a47cc",
+						"exec": [
+							"pm.sendRequest(\"http://localhost:8080/auth\", function (err, response) {",
+							"    console.log(response.json());",
+							"    pm.globals.set(\"token\", response.access_token);",
+							"     console.log(response.access_token);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,6 +44,16 @@
 		{
 			"name": "Consulta Topico por ID",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRm9ydW0iLCJzdWIiOiIxIiwiaWF0IjoxNTc1ODQ5MTMxLCJleHAiOjE1NzU5MzU1MzF9.mCF7kL3CD-e1kGUWh52b1Qo7iS8s01V70g260NaSKX8",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -44,7 +72,43 @@
 		},
 		{
 			"name": "Insere Topico",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e3a8e75c-364e-447c-b445-c6e87a9d4fcb",
+						"exec": [
+							"pm.sendRequest({\r",
+							"      url:  \"http://localhost:8080/auth\", \r",
+							"      method: 'POST',\r",
+							"      header: {\r",
+							"        'Accept': 'application/json',\r",
+							"        'Content-Type': 'application/json',\r",
+							"      },\r",
+							"      body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({ email: 'aluno@email.com', senha: '123456' })\r",
+							"      }\r",
+							"  }, function (err, res) {\r",
+							"        console.log(res);\r",
+							"        pm.globals.set(\"token\", res.json().access_token);\r",
+							"  });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -64,14 +128,47 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/topicos/1",
+					"raw": "localhost:8080/topicos",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"topicos",
-						"1"
+						"topicos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gera Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"aluno@email.com\",\n\t\"senha\" : \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth"
 					]
 				}
 			},
@@ -79,7 +176,43 @@
 		},
 		{
 			"name": "Atualiza Tópico",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cc8e2add-5ab6-45f1-a1e7-42ee4e323d22",
+						"exec": [
+							"pm.sendRequest({\r",
+							"      url:  \"http://localhost:8080/auth\", \r",
+							"      method: 'POST',\r",
+							"      header: {\r",
+							"        'Accept': 'application/json',\r",
+							"        'Content-Type': 'application/json',\r",
+							"      },\r",
+							"      body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({ email: 'aluno@email.com', senha: '123456' })\r",
+							"      }\r",
+							"  }, function (err, res) {\r",
+							"        console.log(res);\r",
+							"        pm.globals.set(\"token\", res.json().access_token);\r",
+							"  });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [
 					{
@@ -114,7 +247,43 @@
 		},
 		{
 			"name": "Deleta Topico",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3669dc32-f4d2-490b-a3a3-d9f1d4a6abd0",
+						"exec": [
+							"pm.sendRequest({\r",
+							"      url:  \"http://localhost:8080/auth\", \r",
+							"      method: 'POST',\r",
+							"      header: {\r",
+							"        'Accept': 'application/json',\r",
+							"        'Content-Type': 'application/json',\r",
+							"      },\r",
+							"      body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({ email: 'aluno@email.com', senha: '123456' })\r",
+							"      }\r",
+							"  }, function (err, res) {\r",
+							"        console.log(res);\r",
+							"        pm.globals.set(\"token\", res.json().access_token);\r",
+							"  });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [
 					{
@@ -125,14 +294,14 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/topicos/1",
+					"raw": "localhost:8080/topicos/2",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"topicos",
-						"1"
+						"2"
 					]
 				}
 			},
